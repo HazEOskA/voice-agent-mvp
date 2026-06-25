@@ -12,6 +12,8 @@ export default function App() {
   const [agentResponse, setAgentResponse] = useState('')
   const [errorMsg, setErrorMsg] = useState('')
   const [autoSpeak, setAutoSpeak] = useState(true)
+  const autoSpeakRef = useRef(autoSpeak)
+  autoSpeakRef.current = autoSpeak
   const stopRecognitionRef = useRef<(() => void) | null>(null)
 
   const sttSupported = isSpeechRecognitionSupported()
@@ -48,7 +50,7 @@ export default function App() {
           setAgentResponse(response)
           setStatus('idle')
 
-          if (autoSpeak && ttsSupported) {
+          if (autoSpeakRef.current && ttsSupported) {
             handleSpeak(response)
           }
         } else {
@@ -60,10 +62,12 @@ export default function App() {
         setStatus('error')
       },
       onEnd: () => {
-        if (status === 'listening') setStatus('idle')
+        // Functional updater reads live state, avoiding the stale-closure bug
+        // where the captured `status` value is always 'idle' (pre-setStatus call).
+        setStatus(current => current === 'listening' ? 'idle' : current)
       },
     })
-  }, [autoSpeak, ttsSupported, handleSpeak, status])
+  }, [ttsSupported, handleSpeak])
 
   const stopListening = useCallback(() => {
     stopRecognitionRef.current?.()
