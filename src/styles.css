@@ -1,0 +1,270 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #0f0f13;
+  --surface: #1a1a24;
+  --surface2: #22223a;
+  --accent: #6c63ff;
+  --accent-glow: #6c63ff44;
+  --success: #4caf8a;
+  --warn: #f0a04b;
+  --error: #e05c5c;
+  --text: #e8e8f0;
+  --text-dim: #888899;
+  --radius: 12px;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Layout ──────────────────────────────── */
+.app {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  flex: 1;
+}
+
+.app-header {
+  text-align: center;
+}
+
+.app-header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.badge {
+  font-size: 0.6em;
+  background: var(--accent);
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 20px;
+  vertical-align: middle;
+  margin-left: 8px;
+}
+
+.subtitle {
+  color: var(--text-dim);
+  margin-top: 0.4rem;
+  font-size: 0.95rem;
+}
+
+.app-main {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.app-footer {
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 0.8rem;
+  padding: 1rem 0;
+}
+
+/* ── Support warning ─────────────────────── */
+.support-warning {
+  background: #3a1a1a;
+  border: 1px solid var(--error);
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+  color: #ffaaaa;
+  font-size: 0.9rem;
+}
+
+/* ── Mic section ─────────────────────────── */
+.mic-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.mic-btn {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  border: 3px solid var(--accent);
+  background: var(--surface);
+  font-size: 2.4rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.mic-btn:hover:not(:disabled) {
+  background: var(--surface2);
+  transform: scale(1.06);
+  box-shadow: 0 0 24px var(--accent-glow);
+}
+
+.mic-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.mic-btn.listening {
+  border-color: var(--error);
+  animation: pulse 1.2s ease-in-out infinite;
+  box-shadow: 0 0 32px #e05c5c44;
+}
+
+.mic-btn.speaking {
+  border-color: var(--success);
+  box-shadow: 0 0 32px #4caf8a44;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.1); }
+}
+
+/* ── Status pill ─────────────────────────── */
+.status-pill {
+  padding: 4px 16px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  background: var(--surface2);
+  color: var(--text-dim);
+  transition: all 0.2s;
+}
+
+.status-pill.status-listening { background: #3a1a1a; color: #ff8888; }
+.status-pill.status-processing { background: #1a2a3a; color: #88aaff; }
+.status-pill.status-speaking  { background: #1a3a2a; color: #88ffcc; }
+.status-pill.status-error     { background: #3a1a1a; color: var(--error); }
+
+/* ── Error box ───────────────────────────── */
+.error-box {
+  background: #3a1a1a;
+  border: 1px solid var(--error);
+  border-radius: var(--radius);
+  padding: 0.75rem 1rem;
+  color: #ffaaaa;
+  font-size: 0.9rem;
+}
+
+/* ── Panels ──────────────────────────────── */
+.panels {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 600px) {
+  .panels { grid-template-columns: 1fr; }
+}
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--surface2);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-height: 140px;
+}
+
+.panel h2 {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+}
+
+.panel-content {
+  flex: 1;
+}
+
+.final-text {
+  font-size: 1rem;
+  color: var(--text);
+}
+
+.interim-text {
+  font-size: 1rem;
+  color: var(--text-dim);
+  font-style: italic;
+}
+
+.response-text {
+  font-size: 1rem;
+  color: var(--text);
+}
+
+.placeholder {
+  color: var(--text-dim);
+  font-style: italic;
+  font-size: 0.9rem;
+}
+
+/* ── Speak button ────────────────────────── */
+.speak-btn {
+  background: var(--surface2);
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.15s;
+  align-self: flex-start;
+}
+
+.speak-btn:hover:not(:disabled) {
+  background: var(--accent);
+  color: #fff;
+}
+
+.speak-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ── Options bar ─────────────────────────── */
+.options-bar {
+  display: flex;
+  justify-content: center;
+}
+
+.toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--text-dim);
+  cursor: pointer;
+  user-select: none;
+}
+
+.toggle-label input[type="checkbox"] {
+  accent-color: var(--accent);
+  width: 16px;
+  height: 16px;
+}
